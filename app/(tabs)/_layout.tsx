@@ -9,7 +9,8 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import Header  from '@/components/Header';
+import { StatusBar } from 'expo-status-bar';
 
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -25,17 +26,20 @@ export default function TabLayout() {
 
   return (
     <Tabs
+    
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        tabBarActiveTintColor: 'white',
+        header : ()=><Header/>,
+        headerStyle: {
+          backgroundColor: 'transparent', // Make the header background transparent
+        },
       }}>
+        <StatusBar style="light" />
       <Tabs.Screen
         name="index"
         options={{
           
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account-circle" size={24} color="black" />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account-circle" size={24} color={color} />,
           // headerRight: () => (
           //   <Link href="/modal" asChild>
           //     <Pressable>
@@ -56,27 +60,27 @@ export default function TabLayout() {
         name="three"
         options={{
           
-          tabBarIcon: ({ color }) => <AntDesign name="search1" size={24} color="black" />,
+          tabBarIcon: ({ color }) => <AntDesign name="search1" size={24} color={color}  />,
         }}
       />
       <Tabs.Screen
        name="four"
         options={{
           
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="lightning-bolt" size={24} color="black" />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="lightning-bolt" size={24} color={color}  />,
         }}
       />
       <Tabs.Screen
          name="five"
         options={{
           
-          tabBarIcon: ({ color }) => <Octicons name="download" size={24} color="black" />,
+          tabBarIcon: ({ color }) => <Octicons name="download" size={24} color={color}  />,
         }}
       />
       <Tabs.Screen
       name="two"
       options={{
-      tabBarIcon: ({ color }) => <Entypo name="home" size={24} color="black" />,
+      tabBarIcon: ({ color }) => <Entypo name="home" size={24} color={color}  />,
   }}
 />
     </Tabs>
