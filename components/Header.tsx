@@ -5,12 +5,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 const Header = () => {
   return (
     <View style={styles.headerContainer}>     
-      <LinearGradient
+      {/* <LinearGradient
         colors={['rgba(0, 0, 0,0.7)', 'transparent']}
         style={StyleSheet.absoluteFill}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
-      ></LinearGradient>
+      ></LinearGradient> */}
       <View style={styles.headercontent}>
       <Image 
         source={require('../assets/images/logo1.png')}

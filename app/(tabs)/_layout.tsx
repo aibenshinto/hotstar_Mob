@@ -40,38 +40,38 @@ export default function TabLayout() {
         options={{
           
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account-circle" size={24} color={color} />,
-          // headerRight: () => (
-          //   <Link href="/modal" asChild>
-          //     <Pressable>
-          //       {({ pressed }) => (
-          //         <FontAwesome
-          //           name="info-circle"
-          //           size={25}
-          //           color={Colors[colorScheme ?? 'light'].text}
-          //           style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-          //         />
-          //       )}
-          //     </Pressable>
-          //   </Link>
-          // ),
+          headerRight: () => (
+            <Link href="/modal" asChild>
+              <Pressable>
+                {({ pressed }) => (
+                  <FontAwesome
+                    name="info-circle"
+                    size={25}
+                    color={Colors[colorScheme ?? 'light'].text}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            </Link>
+          ),
         }}
       />
       <Tabs.Screen
         name="three"
         options={{
-          
+         
           tabBarIcon: ({ color }) => <AntDesign name="search1" size={24} color={color}  />,
         }}
       />
       <Tabs.Screen
-       name="four"
+        name="four"
         options={{
           
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="lightning-bolt" size={24} color={color}  />,
         }}
       />
       <Tabs.Screen
-         name="five"
+        name="five"
         options={{
           
           tabBarIcon: ({ color }) => <Octicons name="download" size={24} color={color}  />,
