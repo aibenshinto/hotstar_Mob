@@ -26,7 +26,6 @@ export default function TabLayout() {
 
   return (
     <Tabs
-    
       screenOptions={{
         tabBarActiveTintColor: 'white',
         header : ()=><Header/>,
