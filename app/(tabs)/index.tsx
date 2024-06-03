@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link, Tabs } from "expo-router";
 import {
 	StyleSheet,
 	Image,
@@ -8,6 +9,7 @@ import {
 	Text,
 	TouchableOpacity,
 	Dimensions,
+	ImageSourcePropType,
 } from "react-native";
 import Card from "@/components/Card";
 import NewMoviewSlid from "@/components/NewMovieScroll";
@@ -16,6 +18,7 @@ import { getData, Movie } from "@/apiCalls/Api";
 import imageData from "../NewMovieData/newMovie";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { Pressable } from "react-native";
 const genres = [
 	// 'action-adventure',
 	"animation",
@@ -46,32 +49,8 @@ export default function TabOneScreen() {
 
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
-			{/* <View style={styles.title}>
-        <Image 
-          source={require('../../assets/images/samplemovie.jpg')} 
-          style={styles.image}
-        />
-        <View style={styles.gradientContainer}>
-          <LinearGradient
-            colors={['rgba(0, 0, 0, 1)', 'transparent']}
-            style={styles.topGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-          />
-          <LinearGradient
-            colors={['transparent', 'rgba(0, 0, 0, 1)']}
-            style={styles.bottomGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-          />
-        </View>
-      </View> */}
+			<NewMoviewSlid imageData={imageData} />
 
-			<NewMoviewSlid
-				image={imageData[0].bgImage}
-				titleImage={imageData[0].fImage}
-				text={imageData[0].Mdata}
-			/>
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity>
 					<Text style={styles.button1}>Watch Now</Text>
@@ -87,7 +66,19 @@ export default function TabOneScreen() {
 						<FlatList
 							data={data[genre]}
 							renderItem={({ item }) => (
-								<Card title={item.title} image={{ uri: item.posterURL }} />
+								<Pressable>
+									<Link
+										href={{
+											pathname: "/modal",
+											params: {
+												posterImg: item.posterURL,
+												title: item.title,
+											},
+										}}
+									>
+										<Card title={item.title} image={{ uri: item.posterURL }} />
+									</Link>
+								</Pressable>
 							)}
 							keyExtractor={(item) => item.id}
 							horizontal
@@ -107,7 +98,6 @@ const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
 		paddingBottom: 20,
-		gap: 70,
 	},
 	buttonContainer: {
 		flexDirection: "row",

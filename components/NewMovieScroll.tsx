@@ -7,49 +7,60 @@ import {
 	Dimensions,
 	Text,
 } from "react-native";
+
 import { LinearGradient } from "expo-linear-gradient";
+import Swiper from "react-native-swiper";
+import { Movie } from "@/app/NewMovieData/newMovie";
 
 type NewMoviewSlidProps = {
-	image: ImageSourcePropType;
-	titleImage: ImageSourcePropType;
-	text: string;
+	imageData: Movie[];
 };
 
-const NewMoviewSlid: React.FC<NewMoviewSlidProps> = ({
-	image,
-	titleImage,
-	text,
-}) => {
+const NewMovieSlide: React.FC<NewMoviewSlidProps> = ({ imageData }) => {
 	return (
-		<>
-			<View style={styles.title}>
-				<Image source={image} style={styles.image} />
-				<View style={styles.gradientContainer}>
-					<LinearGradient
-						colors={["rgba(0, 0, 0, 1)", "transparent"]}
-						style={styles.topGradient}
-						start={{ x: 0, y: 0 }}
-						end={{ x: 0, y: 1 }}
-					/>
-					<LinearGradient
-						colors={["transparent", "rgba(0, 0, 0, 1)"]}
-						style={styles.bottomGradient}
-						start={{ x: 0, y: 0 }}
-						end={{ x: 0, y: 1 }}
-					/>
-				</View>
-			</View>
-			<View style={styles.detailsContainer}>
-				<Image source={titleImage} style={styles.titleImage} />
-				<Text style={styles.titleText}>{text}</Text>
-			</View>
-		</>
+		<Swiper
+			autoplay={true}
+			autoplayTimeout={8}
+			style={styles.wrapper}
+			showsButtons={false}
+			dotColor='grey'
+			activeDotColor='white'
+		>
+			{imageData.map((movie, index) => (
+				<>
+					<View style={styles.title}>
+						<Image source={movie.bgImage} style={styles.image} />
+						<View style={styles.gradientContainer}>
+							<LinearGradient
+								colors={["rgba(0, 0, 0, 1)", "transparent"]}
+								style={styles.topGradient}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 0, y: 1 }}
+							/>
+							<LinearGradient
+								colors={["transparent", "rgba(0, 0, 0, 1)"]}
+								style={styles.bottomGradient}
+								start={{ x: 0, y: 0 }}
+								end={{ x: 0, y: 1 }}
+							/>
+						</View>
+					</View>
+					<View style={styles.detailsContainer}>
+						<Image source={movie.fImage} style={styles.titleImage} />
+					</View>
+					<Text style={styles.titleText}>{movie.Mdata}</Text>
+				</>
+			))}
+		</Swiper>
 	);
 };
 
 const { height, width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
+	wrapper: {
+		height: height * 0.6,
+	},
 	title: {
 		height: height * 0.5,
 		justifyContent: "center",
@@ -72,18 +83,23 @@ const styles = StyleSheet.create({
 		marginTop: "auto",
 	},
 	titleImage: {
-		objectFit: "fill",
+		objectFit: "contain",
+		height: "100%",
+		width: "100%",
 	},
 	detailsContainer: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "flex-end",
-		width,
-		height: height * 0.5,
+
+		justifyContent: "flex-start",
+		width: width * 0.5,
+		height: height * 0.2,
 		position: "absolute",
+		marginTop: 250,
+		marginLeft: 100,
 	},
 	titleText: {
 		color: "white",
+		alignSelf: "center",
 	},
 });
-export default NewMoviewSlid;
+export default NewMovieSlide;
