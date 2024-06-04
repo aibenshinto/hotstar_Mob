@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Tabs } from "expo-router";
+import { Link } from "expo-router";
 import {
 	StyleSheet,
 	Image,
@@ -13,10 +13,8 @@ import {
 } from "react-native";
 import Card from "@/components/Card";
 import NewMoviewSlid from "@/components/NewMovieScroll";
-import { LinearGradient } from "expo-linear-gradient";
 import { getData, Movie } from "@/apiCalls/Api";
 import imageData from "../NewMovieData/newMovie";
-import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 const genres = [
@@ -66,17 +64,18 @@ export default function TabOneScreen() {
 						<FlatList
 							data={data[genre]}
 							renderItem={({ item }) => (
-								<Pressable>
+								<Pressable style={styles.cardStyle}>
 									<Link
 										href={{
 											pathname: "/modal",
 											params: {
 												posterImg: item.posterURL,
 												title: item.title,
+												additionalData: JSON.stringify(data[genre]),
 											},
 										}}
 									>
-										<Card title={item.title} image={{ uri: item.posterURL }} />
+										<Card image={{ uri: item.posterURL }} />
 									</Link>
 								</Pressable>
 							)}
@@ -127,6 +126,11 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginLeft: 10,
 		color: "white",
+		gap:10,
+	},
+	cardStyle: {
+		marginHorizontal:10,
+		
 	},
 	carousel: {
 		paddingVertical: 20,
