@@ -3,32 +3,51 @@ import {
 	Platform,
 	StyleSheet,
 	Text,
-	FlatList,
 	View,
 	Image,
 	TouchableOpacity,
 	ScrollView,
 	Pressable,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import Card from "@/components/Card";
+import CardScroll from "@/components/CardScroll";
+import React, { useState } from "react";
+import { useFavorites } from "./FavoritesContext";
+
+
 export default function ModalScreen() {
-	const { posterImg, title, additionalData } = useLocalSearchParams();
-	const parsedData = JSON.parse(additionalData);
+	const { posterImg, title, parsedData } = useLocalSearchParams();
+
+	 const { favorites, setFavorites } = useFavorites();
+
+	const handlePress = () => {
+		if (!favorites.includes(posterImg)) {
+			setFavorites([...favorites, posterImg]);
+		} else {
+			const updatedFavorites = favorites.filter((img) => img !== posterImg);
+			setFavorites(updatedFavorites);
+		}
+	}
+	console.log(posterImg);
+	 console.log("Favorites:", favorites);
 
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
-			<Pressable style={styles.backButton}>
-				<Feather name='x' size={35} color='white' />
-			</Pressable>
 			<View style={styles.imageText}>
 				<Image source={{ uri: `${posterImg}` }} style={styles.imageStyle} />
+				<Pressable style={styles.backButton}>
+					<Link href={"../"}>
+						<View style={styles.backButtonBackground}>
+							<Feather name='x' size={45} color='white' />
+						</View>
+					</Link>
+				</Pressable>
 				<Text style={styles.title}>{title}</Text>
 				<Text style={styles.text}>2024 | 2h.22m | 4 languages</Text>
 				<Pressable style={styles.watchButton}>
-					<Text style={styles.watchText}>watch Now</Text>
+					<Text style={styles.watchText}>Watch Now</Text>
 				</Pressable>
 				<Text style={styles.description}>
 					La alegría, la tristeza, la ira, el miedo y el asco han llevado a cabo
@@ -38,58 +57,55 @@ export default function ModalScreen() {
 				<View style={styles.propContainer}>
 					<View style={styles.prop}>
 						<FontAwesome name='plus' size={30} color='white' />
-						<Text style={styles.propText}>watch list</Text>
+						<Text style={styles.propText}>Watch List</Text>
 					</View>
 					<View style={styles.prop}>
 						<FontAwesome name='share' size={30} color='white' />
-						<Text style={styles.propText}>share </Text>
+						<Text style={styles.propText}>Share</Text>
 					</View>
 					<View style={styles.prop}>
-						<FontAwesome name='heart-o' size={30} color='white' />
-						<Text style={styles.propText}>heart</Text>
+						<Pressable style={styles.prop} onPress={handlePress}>
+							<FontAwesome
+								name={favorites.includes(posterImg) ? "heart" : "heart-o"}
+								size={30}
+								color={favorites.includes(posterImg) ? "red" : "white"}
+							/>
+							<Text style={styles.propText}>Heart</Text>
+						</Pressable>
 					</View>
 					<View style={styles.prop}>
 						<FontAwesome name='star-o' size={30} color='white' />
-						<Text style={styles.propText}>star </Text>
+						<Text style={styles.propText}>Star</Text>
 					</View>
 				</View>
-				<View>
-					<FlatList
-						data={parsedData}
-						renderItem={({ item }) => (
-							<Pressable >
-								<Card image={{ uri: item.posterURL }} />
-							</Pressable>
-						)}
-						keyExtractor={(item) => item.id}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						// contentContainerStyle={styles.carousel}
-					/>
-				</View>
+				<CardScroll genre={parsedData} />
 			</View>
 		</ScrollView>
 	);
 }
+console.log();
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		// alignItems: "center",
+		flexGrow: 1,
 		justifyContent: "flex-start",
-		position: "relative",
 		padding: 3,
 	},
 	backButton: {
-		alignItems: "flex-end",
-		paddingTop: 40,
-		paddingRight: 20,
+		position: "absolute",
+		top: 40,
+		right: 20,
 		zIndex: 1,
+	},
+	backButtonBackground: {
+		backgroundColor: "rgba(84, 82, 82, 0.7)",
+		borderRadius: 50,
 	},
 	title: {
 		fontSize: 40,
 		fontWeight: "bold",
 		textAlign: "center",
 		color: "white",
+		marginTop: 20,
 	},
 	text: {
 		color: "white",
@@ -103,6 +119,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		height: 50,
 		borderRadius: 12,
+		marginVertical: 10,
 	},
 	watchText: {
 		fontSize: 25,
@@ -116,8 +133,8 @@ const styles = StyleSheet.create({
 	},
 	propContainer: {
 		flexDirection: "row",
-		paddingLeft: 13,
-		gap: 40,
+		justifyContent: "space-around",
+		paddingVertical: 20,
 	},
 	prop: {
 		alignItems: "center",
@@ -127,13 +144,10 @@ const styles = StyleSheet.create({
 	},
 	imageText: {
 		width: "100%",
-		height: "100%",
-		position: "absolute",
 	},
 	imageStyle: {
-		objectFit: "cover",
 		width: "100%",
-		height: "30%",
-		borderRadius: 30,
+		height: 250,
+		borderRadius: 10,
 	},
 });

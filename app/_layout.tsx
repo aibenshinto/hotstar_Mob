@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from '@/components/useColorScheme';
-
+import { FavoritesProvider } from "./FavoritesContext";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -49,7 +49,7 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    //DefaultTheme
+    <FavoritesProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DarkTheme}> 
     <StatusBar style="light" />
       <Stack>
@@ -57,5 +57,6 @@ function RootLayoutNav() {
         <Stack.Screen name="modal" options={{ presentation: 'modal',animation:'fade_from_bottom', headerShown: false }} />
       </Stack>
     </ThemeProvider>
+    </FavoritesProvider>
   );
 }

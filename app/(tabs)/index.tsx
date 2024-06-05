@@ -17,6 +17,8 @@ import { getData, Movie } from "@/apiCalls/Api";
 import imageData from "../NewMovieData/newMovie";
 import { Entypo } from "@expo/vector-icons";
 import { Pressable } from "react-native";
+import CardScroll from "@/components/CardScroll";
+
 const genres = [
 	// 'action-adventure',
 	"animation",
@@ -31,19 +33,6 @@ const genres = [
 ];
 
 export default function TabOneScreen() {
-	const [data, setData] = useState<{ [key: string]: Movie[] }>({});
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const genreData: { [key: string]: Movie[] } = {};
-			for (const genre of genres) {
-				genreData[genre] = await getData(genre);
-			}
-			setData(genreData);
-		};
-
-		fetchData();
-	}, []);
 
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
@@ -57,36 +46,9 @@ export default function TabOneScreen() {
 					<Entypo name='plus' size={18} color='white' />
 				</TouchableOpacity>
 			</View>
-			<View>
-				{genres.map((genre) => (
-					<View key={genre} style={styles.genreSection}>
-						<Text style={styles.genreTitle}>{genre}</Text>
-						<FlatList
-							data={data[genre]}
-							renderItem={({ item }) => (
-								<Pressable style={styles.cardStyle}>
-									<Link
-										href={{
-											pathname: "/modal",
-											params: {
-												posterImg: item.posterURL,
-												title: item.title,
-												additionalData: JSON.stringify(data[genre]),
-											},
-										}}
-									>
-										<Card image={{ uri: item.posterURL }} />
-									</Link>
-								</Pressable>
-							)}
-							keyExtractor={(item) => item.id}
-							horizontal
-							showsHorizontalScrollIndicator={false}
-							contentContainerStyle={styles.carousel}
-						/>
-					</View>
-				))}
-			</View>
+			{genres.map((genres) => (
+				<CardScroll genre={genres} />
+			))}
 		</ScrollView>
 	);
 }
