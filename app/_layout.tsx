@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from '@/components/useColorScheme';
 import { FavoritesProvider } from "./FavoritesContext";
+import { SearchProvider } from './SearchContext';
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -49,14 +50,23 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <FavoritesProvider>
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DarkTheme}> 
-    <StatusBar style="light" />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal',animation:'fade_from_bottom', headerShown: false }} />
-      </Stack>
-    </ThemeProvider>
-    </FavoritesProvider>
-  );
+		<SearchProvider>
+			<FavoritesProvider>
+				<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DarkTheme}>
+					<StatusBar style='light' />
+					<Stack>
+						<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+						<Stack.Screen
+							name='modal'
+							options={{
+								presentation: "modal",
+								animation: "fade_from_bottom",
+								headerShown: false,
+							}}
+						/>
+					</Stack>
+				</ThemeProvider>
+			</FavoritesProvider>
+		</SearchProvider>
+	);
 }

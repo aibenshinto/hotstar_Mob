@@ -20,7 +20,7 @@ import { Pressable } from "react-native";
 import CardScroll from "@/components/CardScroll";
 
 const genres = [
-	// 'action-adventure',
+	//'action-adventure',
 	"animation",
 	"classic",
 	"comedy",

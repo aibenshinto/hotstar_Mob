@@ -4,22 +4,24 @@ import { StyleSheet, View, FlatList, Text, Dimensions } from "react-native";
 import Card from "@/components/Card";
 import { Pressable } from "react-native";
 import { Link } from "expo-router";
-
+import { useSearch } from "../app/SearchContext";
 type ScrollProps = {
-	genre: string ;
+	genre: string;
 };
 
 const CardScroll: React.FC<ScrollProps> = ({ genre }) => {
 	const [data, setData] = useState<Movie[]>([]);
+	const { Search, setSearch } = useSearch();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const genreData: Movie[] = await getData(genre);
 			setData(genreData);
+			setSearch((prevSearch) => [...prevSearch, ...genreData]);
 		};
 
 		fetchData();
-	}, [genre]);
+	}, [genre, setSearch]);
 
 	return (
 		<View style={styles.genreSection}>
@@ -71,5 +73,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 20,
 	},
 });
+
+
 
 export default CardScroll;

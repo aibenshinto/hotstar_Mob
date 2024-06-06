@@ -20,7 +20,7 @@ import { useFavorites } from "./FavoritesContext";
 export default function ModalScreen() {
 	const { posterImg, title, parsedData } = useLocalSearchParams();
 
-	 const { favorites, setFavorites } = useFavorites();
+	const { favorites, setFavorites } = useFavorites();
 
 	const handlePress = () => {
 		if (!favorites.includes(posterImg)) {
@@ -30,8 +30,7 @@ export default function ModalScreen() {
 			setFavorites(updatedFavorites);
 		}
 	}
-	console.log(posterImg);
-	 console.log("Favorites:", favorites);
+
 
 	return (
 		<ScrollView contentContainerStyle={styles.container}>
@@ -83,7 +82,7 @@ export default function ModalScreen() {
 		</ScrollView>
 	);
 }
-console.log();
+
 const styles = StyleSheet.create({
 	container: {
 		flexGrow: 1,
